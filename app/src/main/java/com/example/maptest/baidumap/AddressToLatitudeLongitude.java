@@ -67,7 +67,7 @@ public class AddressToLatitudeLongitude {
     }
 
     public static void main(String[] args) {
-        AddressToLatitudeLongitude at = new AddressToLatitudeLongitude("安徽省亳州市亳州一中");
+        AddressToLatitudeLongitude at = new AddressToLatitudeLongitude("西北工业大学");
         at.getLatAndLngByAddress();
         System.out.println(at.getLatitude() + " " + at.getLongitude());
     }
