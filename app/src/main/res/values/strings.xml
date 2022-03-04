@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">MapTest</string>
+    <string name="login">Button</string>
+    <string name="username">username</string>
+    <string name="password">password</string>
+    <string name="sign_up">sign up</string>
+
+    <string name="login_login">log in</string>
+    <string name="signup">sign up</string>
+    <string name="address">地址</string>
+    <string name="title_activity_my_home">my_home</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="sign_in">Sign in</string>
+</resources>

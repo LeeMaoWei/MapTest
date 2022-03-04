@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/MapTest/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
+        <entry key="..\:/MapTest/app/src/main/res/drawable/buttonstyle.xml" value="0.1" />
+        <entry key="..\:/MapTest/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.1765" />
+        <entry key="..\:/MapTest/app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.1" />
+        <entry key="..\:/MapTest/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
+        <entry key="..\:/MapTest/app/src/main/res/drawable/ic_locking.xml" value="0.1" />
+        <entry key="..\:/MapTest/app/src/main/res/drawable/ic_mail.xml" value="0.1" />
+        <entry key="..\:/MapTest/app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.1495" />
+        <entry key="..\:/MapTest/app/src/main/res/drawable/mail.xml" value="0.1765" />
+        <entry key="..\:/MapTest/app/src/main/res/drawable/radius_drawable_bg.xml" value="0.1" />
+        <entry key="..\:/MapTest/app/src/main/res/layout/activity_main.xml" value="0.1994645247657296" />
+        <entry key="..\:/MapTest/app/src/main/res/layout/activity_main2.xml" value="0.2578125" />
+        <entry key="..\:/MapTest/app/src/main/res/layout/activity_my_home.xml" value="0.1" />
+        <entry key="..\:/MapTest/app/src/main/res/layout/fragment_dashboard.xml" value="0.15217391304347827" />
+        <entry key="..\:/MapTest/app/src/main/res/layout/fragment_home.xml" value="0.176" />
+        <entry key="..\:/MapTest/app/src/main/res/layout/fragment_my_map.xml" value="0.1" />
+        <entry key="..\:/MapTest/app/src/main/res/layout/fragment_notifications.xml" value="0.15217391304347827" />
+        <entry key="..\:/MapTest/app/src/main/res/layout/input_layout.xml" value="0.16524216524216523" />
+        <entry key="..\:/MapTest/app/src/main/res/layout/item_layout.xml" value="0.6" />
+        <entry key="..\:/MapTest/app/src/main/res/layout/item_list.xml" value="0.20260416666666667" />
+        <entry key="..\:/MapTest/app/src/main/res/layout/login.xml" value="0.1543859649122807" />
+        <entry key="..\:/MapTest/app/src/main/res/layout/my_home.xml" value="0.25729166666666664" />
+        <entry key="..\:/MapTest/app/src/main/res/layout/my_map.xml" value="0.10507246376811594" />
+        <entry key="..\:/MapTest/app/src/main/res/layout/progress.xml" value="0.264" />
+        <entry key="..\:/MapTest/app/src/main/res/layout/signup.xml" value="0.2" />
+        <entry key="..\:/MapTest/app/src/main/res/menu/bottom_nav_menu.xml" value="0.2" />
+        <entry key="..\:/MapTest/app/src/main/res/menu/menu_item.xml" value="0.1" />
+        <entry key="..\:/MapTest/app/src/main/res/menu/menu_main.xml" value="0.1" />
+        <entry key="..\:/MapTest/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.15833333333333333" />
+        <entry key="..\:/MapTest/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.15833333333333333" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
