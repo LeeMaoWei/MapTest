@@ -76,6 +76,7 @@ public class MyMapFragment extends Fragment {
     private Context context;
 
     private String myCity;
+    private String myProvince;
 
     private double myLatitude;//纬度，用于存储自己所在位置的纬度
     private double myLongitude;//经度，用于存储自己所在位置的经度
@@ -365,6 +366,7 @@ public class MyMapFragment extends Fragment {
              * */
             myLatitude = bdLocation.getLatitude();
             myLongitude = bdLocation.getLongitude();
+            myProvince = bdLocation.getProvince();
             myCity = bdLocation.getCity();
             MyLocationData data = new MyLocationData.Builder()
                     .direction(myCurrentX)//设定图标方向

@@ -56,28 +56,25 @@ public class RegisterActivity extends AppCompatActivity {
         user.setPassword(cpassword);
 
 
-        new Thread(){
-            @Override
-            public void run() {
+        new Thread(() -> {
 
-                int msg = 0;
+            int msg = 0;
 
-                UserDao userDao = new UserDao();
+            UserDao userDao = new UserDao();
 
-                User uu = userDao.findUser(user.getUsername());
+            User uu = userDao.findUser(user.getUsername());
 
-                if(uu != null){
-                    msg = 1;
-                }
-
-                boolean flag = userDao.register(user);
-                if(flag){
-                    msg = 2;
-                }
-                hand.sendEmptyMessage(msg);
-
+            if(uu != null){
+                msg = 1;
             }
-        }.start();
+
+            boolean flag = userDao.register(user);
+            if(flag){
+                msg = 2;
+            }
+            hand.sendEmptyMessage(msg);
+
+        }).start();
 
 
     }
