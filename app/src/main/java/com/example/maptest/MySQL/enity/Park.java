@@ -3,6 +3,7 @@ package com.example.maptest.MySQL.enity;
 
 public class Park{
     private int parkid;
+    private int admincode;
     private String parkname;
     private String lng;
     private String lat;
@@ -12,8 +13,9 @@ public class Park{
 
     }
 
-    public Park(int parkid, String parkname, String lng, String lat , int num) {
+    public Park(int parkid,int admincode, String parkname, String lng, String lat , int num) {
         this.parkid=parkid;
+        this.admincode=admincode;
         this.parkname = parkname;
         this.lng = lng;
         this.lat = lat;
@@ -26,6 +28,10 @@ public class Park{
 
     public int getParkid() {
         return parkid;
+    }
+
+    public int getAdmincode() {
+        return admincode;
     }
 
     public String getLat() {
@@ -58,5 +64,9 @@ public class Park{
 
     public void setParkname(String parkname) {
         this.parkname = parkname;
+    }
+
+    public void setAdmincode(int admincode) {
+        this.admincode = admincode;
     }
 }

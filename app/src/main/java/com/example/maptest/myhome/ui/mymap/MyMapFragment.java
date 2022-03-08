@@ -32,10 +32,13 @@ import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
+import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.TextureMapView;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.PoiInfo;
@@ -53,6 +56,7 @@ import com.baidu.navisdk.adapter.IBNTTSManager;
 import com.baidu.navisdk.adapter.IBaiduNaviManager;
 import com.baidu.navisdk.adapter.struct.BNTTsInitConfig;
 
+import com.example.maptest.MySQL.dao.ParkDao;
 import com.example.maptest.R;
 import com.example.maptest.baidumap.DemoGuideActivity;
 import com.example.maptest.baidumap.MyOrientationListener;
@@ -61,8 +65,11 @@ import com.example.maptest.databinding.FragmentMyMapBinding;
 import com.example.maptest.utils.BNDemoUtils;
 
 import java.io.File;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class MyMapFragment extends Fragment {
 
@@ -76,7 +83,7 @@ public class MyMapFragment extends Fragment {
     private Context context;
 
     private String myCity;
-    private String myProvince;
+    private String myAdCode;
 
     private double myLatitude;//纬度，用于存储自己所在位置的纬度
     private double myLongitude;//经度，用于存储自己所在位置的经度
@@ -366,7 +373,7 @@ public class MyMapFragment extends Fragment {
              * */
             myLatitude = bdLocation.getLatitude();
             myLongitude = bdLocation.getLongitude();
-            myProvince = bdLocation.getProvince();
+            myAdCode= bdLocation.getAdCode();
             myCity = bdLocation.getCity();
             MyLocationData data = new MyLocationData.Builder()
                     .direction(myCurrentX)//设定图标方向
@@ -384,11 +391,39 @@ public class MyMapFragment extends Fragment {
                 isFirstIn = false;
                 //提示当前所在地址信息
 //                Toast.makeText(context, bdLocation.getAddrStr(), Toast.LENGTH_SHORT).show();
+                myMark(myAdCode);
             }
+
+
+
 
         }
     }
 
+    public void myMark(String adCode){
+        List<HashMap<String,String>> list= new ArrayList<>();
+        ParkDao parkDao = new ParkDao();
+        try {
+            list=parkDao.getinfo(adCode);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        for(int i=0;i<list.size();i++){
+            HashMap<String,String> map= list.get(i);
+            double lat = Double.parseDouble(Objects.requireNonNull(map.get("lat")));
+            double lng = Double.parseDouble(Objects.requireNonNull(map.get("lng")));;
+            LatLng point = new LatLng(lat, lng);
+            //构建Marker图标
+            BitmapDescriptor bitmap = BitmapDescriptorFactory
+                    .fromResource(R.drawable.icon_markb);
+            //构建MarkerOption，用于在地图上添加Marker
+            OverlayOptions option = new MarkerOptions()
+                    .position(point)
+                    .icon(bitmap);
+            //在地图上添加Marker，并显示
+            myBaiduMap.addOverlay(option);
+        }
+    }
 
     //创建poi检索监听器
     final OnGetPoiSearchResultListener poiSearchListener = new OnGetPoiSearchResultListener() {
@@ -517,7 +552,6 @@ public class MyMapFragment extends Fragment {
 
                 });
     }
-
 
 
  public void onStart() {
