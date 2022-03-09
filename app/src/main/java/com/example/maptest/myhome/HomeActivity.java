@@ -9,6 +9,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.baidu.mapapi.search.geocode.GeoCoder;
 import com.example.maptest.R;
 
 import com.example.maptest.databinding.ActivityMyHomeBinding;
@@ -19,6 +20,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class HomeActivity extends AppCompatActivity{
 
     private ActivityMyHomeBinding binding;
+    public static GeoCoder mSearch = null;
 
 
     @Override
@@ -27,7 +29,7 @@ public class HomeActivity extends AppCompatActivity{
 
         binding = ActivityMyHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        mSearch = GeoCoder.newInstance();
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.

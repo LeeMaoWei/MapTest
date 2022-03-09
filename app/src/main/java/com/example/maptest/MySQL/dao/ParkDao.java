@@ -75,6 +75,7 @@ public class ParkDao {
 //            键是name，值是result.getString("empname"),意思是结果集指针所在行的字段名中的数据
             map.put("lng",result.getString("lng"));
             map.put("lat",result.getString("lat"));
+            map.put("name",result.getString("parkname"));
 //            每次循环完就添加到list中，最终list的样子是：[{name=xx},{name=aaa},.......]
             list.add(map);
         }

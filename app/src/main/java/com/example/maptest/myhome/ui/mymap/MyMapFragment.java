@@ -2,6 +2,7 @@ package com.example.maptest.myhome.ui.mymap;
 
 
 import static com.baidu.location.LocationClient.setAgreePrivacy;
+import static com.example.maptest.myhome.HomeActivity.mSearch;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.os.Parcelable;
 import android.os.StrictMode;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -33,8 +36,10 @@ import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
+import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
@@ -42,6 +47,12 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.TextureMapView;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.PoiInfo;
+import com.baidu.mapapi.search.core.SearchResult;
+import com.baidu.mapapi.search.geocode.GeoCodeResult;
+
+import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
 import com.baidu.mapapi.search.poi.PoiCitySearchOption;
 import com.baidu.mapapi.search.poi.PoiDetailResult;
@@ -62,6 +73,7 @@ import com.example.maptest.baidumap.DemoGuideActivity;
 import com.example.maptest.baidumap.MyOrientationListener;
 import com.example.maptest.baidumap.PoiAdapter;
 import com.example.maptest.databinding.FragmentMyMapBinding;
+
 import com.example.maptest.utils.BNDemoUtils;
 
 import java.io.File;
@@ -90,7 +102,7 @@ public class MyMapFragment extends Fragment {
     private float myCurrentX;
 
     private BitmapDescriptor myIconLocation1;//图标1，当前位置的箭头图标
-    private BitmapDescriptor myIconLocation2;//图表2,前往位置的中心图标
+
 
     private MyOrientationListener myOrientationListener;//方向感应器类对象
 
@@ -103,7 +115,6 @@ public class MyMapFragment extends Fragment {
     private AutoCompleteTextView texttemp;
 
     private View view = null ;
-
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -129,13 +140,15 @@ public class MyMapFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        
         AutoCompleteTextView myEditText_site = view.findViewById(R.id.editText_site);
         this.texttemp=myEditText_site;
 
         myEditText_site.setThreshold(1);
 
         mPoiSearch.setOnGetPoiSearchResultListener(poiSearchListener);
+
+
 
         myEditText_site.addTextChangedListener(new TextWatcher() {
             @Override
@@ -411,8 +424,10 @@ public class MyMapFragment extends Fragment {
         for(int i=0;i<list.size();i++){
             HashMap<String,String> map= list.get(i);
             double lat = Double.parseDouble(Objects.requireNonNull(map.get("lat")));
-            double lng = Double.parseDouble(Objects.requireNonNull(map.get("lng")));;
+            double lng = Double.parseDouble(Objects.requireNonNull(map.get("lng")));
+            String name = map.get("name");
             LatLng point = new LatLng(lat, lng);
+
             //构建Marker图标
             BitmapDescriptor bitmap = BitmapDescriptorFactory
                     .fromResource(R.drawable.icon_markb);
@@ -420,8 +435,30 @@ public class MyMapFragment extends Fragment {
             OverlayOptions option = new MarkerOptions()
                     .position(point)
                     .icon(bitmap);
+            Bundle bundle = new Bundle();
+            //info必须实现序列化接口
+            String[] info={map.get("lat"),map.get("lng"),name};
+            bundle.putStringArray("info",info);
+
+            myBaiduMap.addOverlay(option).setExtraInfo(bundle);
+
             //在地图上添加Marker，并显示
-            myBaiduMap.addOverlay(option);
+            //myBaiduMap.addOverlay(option);
+
+            myBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker) {
+                    //从marker中获取info信息
+                    Bundle bundle = marker.getExtraInfo();
+
+                    String[] infoUtil = bundle.getStringArray("info");
+//infowindow位置
+                   LatLng latLng = new LatLng(marker.getPosition().latitude, marker.getPosition().longitude);
+                    startNavi(infoUtil);
+
+                    return true;
+                }
+            });
         }
     }
 
@@ -442,9 +479,13 @@ public class MyMapFragment extends Fragment {
             listView.setVisibility(View.VISIBLE);
             listView.setOnItemClickListener((parent, view, position, id) -> {
 
-                    PoiInfo myend = (PoiInfo) listView.getItemAtPosition(position);
+            PoiInfo myend = (PoiInfo) listView.getItemAtPosition(position);
 
-                        startNavi(myend);
+            //startNavi(myend);
+                LatLng point = new LatLng(myend.getLocation().latitude, myend.getLocation().longitude);
+            getLocationByLL(myend.getLocation().latitude, myend.getLocation().longitude);
+                getInfoFromLAL(myend);
+                adapter.clear();
 
             });
 
@@ -497,7 +538,31 @@ public class MyMapFragment extends Fragment {
         }
     };
 
+    public void getInfoFromLAL(PoiInfo info) {
+        LatLng point=new LatLng(info.getLocation().latitude,info.getLocation().longitude);
 
+        mSearch.reverseGeoCode(new ReverseGeoCodeOption().location(point));
+        mSearch.setOnGetGeoCodeResultListener(new OnGetGeoCoderResultListener() {
+
+            @Override
+            public void onGetReverseGeoCodeResult(ReverseGeoCodeResult result) {
+
+                if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+                    Log.e("发起反地理编码请求", "未能找到结果");
+                } else {
+
+                    Toast.makeText(context,(String.valueOf(result.getAdcode())),Toast.LENGTH_LONG).show();
+                    myMark(String.valueOf(result.getAdcode()));
+                }
+            }
+
+            @Override
+            public void onGetGeoCodeResult(GeoCodeResult result) {
+
+            }
+        });
+
+    }
     private void startNavi(PoiInfo mDestation) {
         if(mDestation==null)
             return;
@@ -552,6 +617,63 @@ public class MyMapFragment extends Fragment {
 
                 });
     }
+
+
+    private void startNavi(String[] mDestation) {
+        if(mDestation==null)
+            return;
+        BNRoutePlanNode sNode = new BNRoutePlanNode.Builder()
+                .latitude(myLatitude)
+                .longitude(myLongitude)
+                .name("我的位置")
+                .description("我的位置")
+                .build();
+        BNRoutePlanNode eNode = new BNRoutePlanNode.Builder()
+                .latitude(Double.parseDouble(mDestation[0]))
+                .longitude(Double.parseDouble(mDestation[1]))
+                .name(mDestation[2])
+                .description(mDestation[2])
+                .build();
+        List<BNRoutePlanNode> list = new ArrayList<>();
+        list.add(sNode);
+        list.add(eNode);
+        BaiduNaviManagerFactory.getRoutePlanManager().routePlanToNavi(
+                list,
+                IBNRoutePlanManager.RoutePlanPreference.ROUTE_PLAN_PREFERENCE_DEFAULT,
+                null,
+                new Handler(Looper.getMainLooper()) {
+                    @Override
+                    public void handleMessage(Message msg) {
+                        switch (msg.what) {
+                            case IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_START:
+                                Toast.makeText(context.getApplicationContext(),
+                                        "算路开始", Toast.LENGTH_SHORT).show();
+                                break;
+                            case IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_SUCCESS:
+                                Toast.makeText(context.getApplicationContext(),
+                                        "算路成功", Toast.LENGTH_SHORT).show();
+                                break;
+                            case IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_FAILED:
+                                Toast.makeText(context.getApplicationContext(),
+                                        "算路失败", Toast.LENGTH_SHORT).show();
+                                break;
+                            case IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_TO_NAVI:
+                                Toast.makeText(context.getApplicationContext(),
+                                        "算路成功准备进入导航", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(context,
+                                        DemoGuideActivity.class);
+                                intent.putExtra("isRealNavi", true);
+                                startActivity(intent);
+                                break;
+                            default:
+                                // nothing
+                                break;
+                        }
+                    }
+
+                });
+    }
+
 
 
  public void onStart() {
