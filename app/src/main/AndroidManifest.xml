@@ -52,6 +52,9 @@
         <activity
             android:name=".baidumap.DemoGuideActivity"
             android:label="MapTest" />
+        <activity
+            android:name=".item.Spacetable"
+            android:label="MapTest" />
 
 
         <meta-data

@@ -74,6 +74,8 @@ import com.example.maptest.baidumap.MyOrientationListener;
 import com.example.maptest.baidumap.PoiAdapter;
 import com.example.maptest.databinding.FragmentMyMapBinding;
 
+import com.example.maptest.item.Spacetable;
+import com.example.maptest.myhome.HomeActivity;
 import com.example.maptest.utils.BNDemoUtils;
 
 import java.io.File;
@@ -427,18 +429,20 @@ public class MyMapFragment extends Fragment {
             double lng = Double.parseDouble(Objects.requireNonNull(map.get("lng")));
             String name = map.get("name");
             LatLng point = new LatLng(lat, lng);
-
+            Bundle bundle = new Bundle();
+            String[] info={map.get("lat"),map.get("lng"),name};
+            bundle.putStringArray("info",info);
             //构建Marker图标
             BitmapDescriptor bitmap = BitmapDescriptorFactory
                     .fromResource(R.drawable.icon_markb);
             //构建MarkerOption，用于在地图上添加Marker
             OverlayOptions option = new MarkerOptions()
                     .position(point)
-                    .icon(bitmap);
-            Bundle bundle = new Bundle();
+                    .icon(bitmap)
+                    .extraInfo(bundle);
             //info必须实现序列化接口
-            String[] info={map.get("lat"),map.get("lng"),name};
-            bundle.putStringArray("info",info);
+
+
 
             myBaiduMap.addOverlay(option).setExtraInfo(bundle);
 
@@ -451,10 +455,19 @@ public class MyMapFragment extends Fragment {
                     //从marker中获取info信息
                     Bundle bundle = marker.getExtraInfo();
 
-                    String[] infoUtil = bundle.getStringArray("info");
-//infowindow位置
-                   LatLng latLng = new LatLng(marker.getPosition().latitude, marker.getPosition().longitude);
-                    startNavi(infoUtil);
+                    String[] info=bundle.getStringArray("info");
+                    Toast.makeText(context,
+                            info[0]+info[1]+info[2], Toast.LENGTH_SHORT).show();
+
+                    Intent intent1 = new Intent(getActivity(), Spacetable.class);
+                    intent1.putExtra("info",bundle.getStringArray("info"));
+
+                    startActivity(intent1);
+
+                   //LatLng latLng = new LatLng(marker.getPosition().latitude, marker.getPosition().longitude);
+
+
+                   //startNavi(infoUtil);
 
                     return true;
                 }

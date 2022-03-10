@@ -1,6 +1,7 @@
 package com.example.maptest.MySQL.dao;
 
 import com.example.maptest.MySQL.enity.Park;
+import com.example.maptest.MySQL.enity.Parkid;
 
 import com.example.maptest.utils.JDBCUtils;
 
@@ -13,21 +14,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ParkDao {
-/***未完成***/
-    public boolean register(Park park){
+public class ParkidDao {
+    public boolean register(Parkid parkid,String tablename){
 
-        String sql = "INSERT INTO `park` (`AdminCode`, `parkname`, `lng`, `lat`,'num') VALUES (?,?,?,?,0)";
+        String sql = "INSERT INTO "+tablename+" ( `state`, `price`, 'freetime') VALUES (?,?,?)";
 
         Connection con = JDBCUtils.getConn();
 
         try {
             PreparedStatement pst=con.prepareStatement(sql);
 
-            pst.setString(1, String.valueOf(park.getAdmincode()));
-            pst.setString(2,park.getParkname());
-            pst.setInt(3, Integer.parseInt(park.getLng()));
-            pst.setInt(4,Integer.parseInt(park.getLat()));
+            pst.setString(1, String.valueOf(parkid.getState()));
+            pst.setString(2, String.valueOf(parkid.getPrice()));
+            pst.setString(3, parkid.getFreetime());
 
 
             int value = pst.executeUpdate();
@@ -46,7 +45,7 @@ public class ParkDao {
     }
 
 
-    public  List<HashMap<String,String>> getinfo(String admincode) throws SQLException {
+    public  List<HashMap<String,String>> getspaceinfo(String tablename) throws SQLException {
 
 //       先定义一个List<HashMap<String,String>>类型的数据并实例化
         List<HashMap<String,String>> list= new ArrayList<>();
@@ -58,7 +57,7 @@ public class ParkDao {
         Statement sta=conn.createStatement();
 
 //        定义sql语句
-        String sql="select * from park where AdminCode="+admincode;
+        String sql="select * from "+tablename;
 
 //        调用Statement对象执行sql语句,返回结果result是ResultSet类型，就是结果集，具体百度
         ResultSet result=sta.executeQuery(sql);
@@ -74,9 +73,13 @@ public class ParkDao {
             HashMap<String,String> map=new HashMap<>();
 //            往map中填数据，map的数据类型相当于键值对
 //            键是name，值是result.getString("empname"),意思是结果集指针所在行的字段名中的数据
-            map.put("lng",result.getString("lng"));
-            map.put("lat",result.getString("lat"));
-            map.put("name",result.getString("parkname"));
+            if(result.getString("state").equals("0"))
+            {
+                continue;
+            }
+            map.put("spaceid",result.getString("spaceid"));
+            map.put("price",result.getString("price"));
+            map.put("freetime",result.getString("freetime"));
 //            每次循环完就添加到list中，最终list的样子是：[{name=xx},{name=aaa},.......]
             list.add(map);
         }
