@@ -428,9 +428,10 @@ public class MyMapFragment extends Fragment {
             double lat = Double.parseDouble(Objects.requireNonNull(map.get("lat")));
             double lng = Double.parseDouble(Objects.requireNonNull(map.get("lng")));
             String name = map.get("name");
+            String id = map.get("id");
             LatLng point = new LatLng(lat, lng);
             Bundle bundle = new Bundle();
-            String[] info={map.get("lat"),map.get("lng"),name};
+            String[] info={map.get("lat"),map.get("lng"),name,id};
             bundle.putStringArray("info",info);
             //构建Marker图标
             BitmapDescriptor bitmap = BitmapDescriptorFactory
@@ -496,7 +497,7 @@ public class MyMapFragment extends Fragment {
 
             //startNavi(myend);
                 LatLng point = new LatLng(myend.getLocation().latitude, myend.getLocation().longitude);
-            getLocationByLL(myend.getLocation().latitude, myend.getLocation().longitude);
+                getLocationByLL(myend.getLocation().latitude, myend.getLocation().longitude);
                 getInfoFromLAL(myend);
                 adapter.clear();
 

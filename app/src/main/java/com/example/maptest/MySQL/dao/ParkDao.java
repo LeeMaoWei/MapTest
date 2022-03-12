@@ -77,6 +77,7 @@ public class ParkDao {
             map.put("lng",result.getString("lng"));
             map.put("lat",result.getString("lat"));
             map.put("name",result.getString("parkname"));
+            map.put("id",result.getString("parkid"));
 //            每次循环完就添加到list中，最终list的样子是：[{name=xx},{name=aaa},.......]
             list.add(map);
         }

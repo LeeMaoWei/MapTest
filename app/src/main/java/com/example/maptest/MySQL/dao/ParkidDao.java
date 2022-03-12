@@ -57,7 +57,7 @@ public class ParkidDao {
         Statement sta=conn.createStatement();
 
 //        定义sql语句
-        String sql="select * from "+tablename;
+        String sql="select * from `"+tablename+"`";
 
 //        调用Statement对象执行sql语句,返回结果result是ResultSet类型，就是结果集，具体百度
         ResultSet result=sta.executeQuery(sql);
