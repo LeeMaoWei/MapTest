@@ -1,6 +1,6 @@
 package com.example.maptest.MySQL.dao;
 
-import com.example.maptest.MySQL.enity.Park;
+
 import com.example.maptest.MySQL.enity.Parkid;
 
 import com.example.maptest.utils.JDBCUtils;

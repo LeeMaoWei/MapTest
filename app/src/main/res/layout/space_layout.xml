@@ -1,17 +1,54 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    android:id="@+id/linear_list_card_item"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/radius_drawable_bg"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    app:stackHeaderHeight="100dp">
+
+<FrameLayout
+    android:id="@+id/frame_list_card_item"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+
+    android:background="@drawable/shape_rectangle_with_radius">
+
+    <TextView
+        android:id="@+id/text_list_card_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="100dp"
+        android:layout_gravity="center"
+        android:textColor="#fff"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        tools:text="12"/>
+
+    <TextView
+        android:id="@+id/text_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="80dp"
+        android:textColor="#fff"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        tools:text="12" />
+</FrameLayout>
+
+<LinearLayout
+android:id="@+id/container_list_content"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:background="@drawable/radius_drawable_bg"
+
+android:animateLayoutChanges="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:gravity="center"
         android:orientation="horizontal">
 
 
@@ -79,7 +116,7 @@
             </LinearLayout>
 
 
-            </LinearLayout>
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -101,3 +138,5 @@
 
     </LinearLayout>
 </LinearLayout>
+
+    </LinearLayout>
