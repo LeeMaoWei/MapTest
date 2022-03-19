@@ -120,6 +120,8 @@ public class MyMapFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+
         this.context = getActivity();
         setAgreePrivacy(true);
         SDKInitializer.setAgreePrivacy(context.getApplicationContext(),true);

@@ -46,27 +46,6 @@ public class LockDao {
         return true;
     }
 
-    public boolean update(int id,  int state){
-        String sql = "UPDATE locklist SET state = ? WHERE id = ? ";
-
-        Connection con = JDBCUtils.getConn();
-
-        try {
-            PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, String.valueOf(state));
-
-
-            pst.setString(2, String.valueOf(id));
-
-            System.out.println(pst);
-            pst.executeUpdate();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        } finally {
-            JDBCUtils.close(con);
-        }
-        return true;
-    }
 
     public boolean Link(String lockid,String username){
         String sql = "update locklist set username = ? where id =" +lockid;
@@ -103,16 +82,10 @@ public class LockDao {
         Statement sta=conn.createStatement();
 
 //        定义sql语句
-        String sql="select * from locklist,`"+parkid+"` where ( locklist.username="+username+") and (locklist.lockid=`"+parkid+"`.lockid)";
+        String sql="select * from locklist,`"+parkid+"` where ( locklist.username=\""+username+"\") and (locklist.lockid=`"+parkid+"`.lockid)";
 
 //        调用Statement对象执行sql语句,返回结果result是ResultSet类型，就是结果集，具体百度
-        try {
             ResultSet result = sta.executeQuery(sql);
-
-//        判断一下是否为空
-            if (result == null) {
-                return null;
-            }
 
 //        条件是当结果集是否有下一行，这是一个相当于指针的东西，第一次调用时会把第一行设置为当前行，第二次回吧第二行设置为当前行，以此类推，直到没有下一行，循环结束
             while (result.next()) {
@@ -127,13 +100,10 @@ public class LockDao {
                 lock.setUsername(username);
 //            每次循环完就添加到list中，最终list的样子是：[{name=xx},{name=aaa},.......]
                 list.add(lock);
-            }
-        }catch (SQLException throwables) {
-        throwables.printStackTrace();
-            }finally {
-                JDBCUtils.close(conn);
-            }
 
+
+        }
+        JDBCUtils.close(conn);
 
 //        最后记得把list返回出去，不然拿不到这个list
         return list;

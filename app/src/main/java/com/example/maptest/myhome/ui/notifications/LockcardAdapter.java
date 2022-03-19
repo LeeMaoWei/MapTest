@@ -56,7 +56,7 @@ public class LockcardAdapter extends BaseAdapter {
 
     @SuppressLint("SetTextI18n")
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(int i, View view, ViewGroup parent) {
        ViewHolder viewHolder=null;
        LockDao lockDao=new LockDao();
        if(view==null) {

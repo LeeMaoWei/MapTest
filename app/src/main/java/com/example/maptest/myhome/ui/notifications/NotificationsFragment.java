@@ -3,6 +3,7 @@ package com.example.maptest.myhome.ui.notifications;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.example.maptest.MySQL.enity.Lock;
 import com.example.maptest.R;
 import com.example.maptest.databinding.FragmentNotificationsBinding;
 import com.example.maptest.myhome.HomeActivity;
+import com.example.maptest.utils.JDBCUtils;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
@@ -28,7 +30,9 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
+import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,16 +48,19 @@ public class NotificationsFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         this.context = getActivity();
         binding = FragmentNotificationsBinding.inflate(inflater, container, false);
-        this.view=binding.getRoot();
+        this.view = inflater.inflate(R.layout.fragment_notifications, container, false);
         Toast.makeText(getActivity(),username,Toast.LENGTH_LONG).show();
         try {
             list=lockDao.getinfo(username,"1");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        lockcardAdapter=new LockcardAdapter(getActivity(),list);
+        lockcardAdapter=new LockcardAdapter(this.getActivity(),list);
         listView=view.findViewById(R.id.xx);
         listView.setAdapter(lockcardAdapter);
         return view;

@@ -83,6 +83,7 @@ public class ParkidDao {
 //            每次循环完就添加到list中，最终list的样子是：[{name=xx},{name=aaa},.......]
             list.add(map);
         }
+        JDBCUtils.close(conn);
 //        最后记得把list返回出去，不然拿不到这个list
         return list;
     }
