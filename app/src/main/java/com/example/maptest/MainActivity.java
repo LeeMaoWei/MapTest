@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         // status bar is hidden, so hide that too if necessary.
 
         setContentView(R.layout.activity_main);
+
     }
 
     public void reg(View view){
@@ -41,13 +42,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void login(View view){
 
-        EditText EditTextname = findViewById(R.id.username);
-        EditText EditTextpassword = findViewById(R.id.password);
+
 
         new Thread(() -> {
 
             UserDao userDao = new UserDao();
-
+            EditText EditTextname = findViewById(R.id.username);
+            EditText EditTextpassword = findViewById(R.id.password);
             boolean aa = userDao.login(EditTextname.getText().toString(),EditTextpassword.getText().toString());
             int msg = 0;
             if(aa){
@@ -69,8 +70,11 @@ public class MainActivity extends AppCompatActivity {
 
             if(msg.what == 1)
             {
+                EditText EditTextname = findViewById(R.id.username);
                 Toast.makeText(getApplicationContext(),"登录成功",Toast.LENGTH_LONG).show();
-                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                intent.putExtra("username",EditTextname.getText().toString());
+                startActivity(intent);
 
             }
             else if(msg.what == 0)

@@ -1,9 +1,13 @@
 package com.example.maptest.myhome;
 
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -13,14 +17,17 @@ import com.baidu.mapapi.search.geocode.GeoCoder;
 import com.example.maptest.R;
 
 import com.example.maptest.databinding.ActivityMyHomeBinding;
+import com.example.maptest.myhome.ui.notifications.NotificationsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.List;
 
 
 public class HomeActivity extends AppCompatActivity{
 
     private ActivityMyHomeBinding binding;
     public static GeoCoder mSearch = null;
+    public String username;
 
 
     @Override
@@ -39,11 +46,18 @@ public class HomeActivity extends AppCompatActivity{
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_my_home);
         //NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+
+
+        Intent i=getIntent();
+
+        username=i.getStringExtra("username");
+
+
+
     }
 
+    public String getTitles(){
+        return username;
+        }
+    }
 
-
-
-
-
-}

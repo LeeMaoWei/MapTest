@@ -9,9 +9,11 @@
         <entry key="..\:/MapTest/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.1765" />
         <entry key="..\:/MapTest/app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.1" />
         <entry key="..\:/MapTest/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
+        <entry key="..\:/MapTest/app/src/main/res/drawable/ic_lock__1_.xml" value="0.1205" />
         <entry key="..\:/MapTest/app/src/main/res/drawable/ic_locking.xml" value="0.1" />
         <entry key="..\:/MapTest/app/src/main/res/drawable/ic_mail.xml" value="0.1" />
         <entry key="..\:/MapTest/app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.1495" />
+        <entry key="..\:/MapTest/app/src/main/res/drawable/ic_unlock.xml" value="0.1205" />
         <entry key="..\:/MapTest/app/src/main/res/drawable/mail.xml" value="0.1765" />
         <entry key="..\:/MapTest/app/src/main/res/drawable/radius_drawable_bg.xml" value="0.1" />
         <entry key="..\:/MapTest/app/src/main/res/drawable/shape_rectangle_with_radius.xml" value="0.1" />
@@ -21,7 +23,7 @@
         <entry key="..\:/MapTest/app/src/main/res/layout/fragment_dashboard.xml" value="0.15217391304347827" />
         <entry key="..\:/MapTest/app/src/main/res/layout/fragment_home.xml" value="0.176" />
         <entry key="..\:/MapTest/app/src/main/res/layout/fragment_my_map.xml" value="0.1" />
-        <entry key="..\:/MapTest/app/src/main/res/layout/fragment_notifications.xml" value="0.4" />
+        <entry key="..\:/MapTest/app/src/main/res/layout/fragment_notifications.xml" value="0.152" />
         <entry key="..\:/MapTest/app/src/main/res/layout/input_layout.xml" value="0.16524216524216523" />
         <entry key="..\:/MapTest/app/src/main/res/layout/item_layout.xml" value="0.6" />
         <entry key="..\:/MapTest/app/src/main/res/layout/item_list.xml" value="0.20260416666666667" />

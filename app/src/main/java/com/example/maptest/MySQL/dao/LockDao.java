@@ -91,7 +91,7 @@ public class LockDao {
     }
 
 
-    public List<Lock> getinfo(String username) throws SQLException {
+    public List<Lock> getinfo(String username,String parkid) throws SQLException {
 
 //       先定义一个List<HashMap<String,String>>类型的数据并实例化
         List<Lock> list = new ArrayList<>();
@@ -103,29 +103,38 @@ public class LockDao {
         Statement sta=conn.createStatement();
 
 //        定义sql语句
-        String sql="select * from locklist where username="+username;
+        String sql="select * from locklist,`"+parkid+"` where ( locklist.username="+username+") and (locklist.lockid=`"+parkid+"`.lockid)";
 
 //        调用Statement对象执行sql语句,返回结果result是ResultSet类型，就是结果集，具体百度
-        ResultSet result=sta.executeQuery(sql);
+        try {
+            ResultSet result = sta.executeQuery(sql);
 
 //        判断一下是否为空
-        if (result==null){
-            return null;
-        }
+            if (result == null) {
+                return null;
+            }
 
 //        条件是当结果集是否有下一行，这是一个相当于指针的东西，第一次调用时会把第一行设置为当前行，第二次回吧第二行设置为当前行，以此类推，直到没有下一行，循环结束
-        while (result.next()) {
+            while (result.next()) {
 //            每次循环都会新实例化一个HashMap对象，用于将遍历到的数据填进去
-            Lock lock=new Lock();
+                Lock lock = new Lock();
 //            往map中填数据，map的数据类型相当于键值对
 //            键是name，值是result.getString("empname"),意思是结果集指针所在行的字段名中的数据
-            lock.setId(Integer.parseInt(result.getString("id")));
-            lock.setLockname(result.getString("lockname"));
-            lock.setState(Integer.parseInt(result.getString("state")));
-            lock.setUsername(username);
+                lock.setId(Integer.parseInt(result.getString("lockid")));
+                lock.setLockname(result.getString("lockname"));
+                lock.setState(Integer.parseInt(result.getString("lockstate")));
+                lock.setFreetime(result.getString("freetime"));
+                lock.setUsername(username);
 //            每次循环完就添加到list中，最终list的样子是：[{name=xx},{name=aaa},.......]
-            list.add(lock);
-        }
+                list.add(lock);
+            }
+        }catch (SQLException throwables) {
+        throwables.printStackTrace();
+            }finally {
+                JDBCUtils.close(conn);
+            }
+
+
 //        最后记得把list返回出去，不然拿不到这个list
         return list;
     }
