@@ -12,8 +12,7 @@
     android:id="@+id/frame_list_card_item"
     android:layout_width="match_parent"
     android:layout_height="80dp"
-
-    android:background="@drawable/shape_rectangle_with_radius">
+    >
 
     <TextView
         android:id="@+id/text_list_card_title"

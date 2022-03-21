@@ -26,6 +26,7 @@ import com.example.maptest.MySQL.dao.LockDao;
 import com.example.maptest.MySQL.enity.Lock;
 import com.example.maptest.R;
 import com.example.maptest.databinding.FragmentNotificationsBinding;
+import com.example.maptest.item.FindPark;
 import com.example.maptest.item.Spacetable;
 import com.example.maptest.myhome.HomeActivity;
 
@@ -64,7 +65,7 @@ public class NotificationsFragment extends Fragment {
         listView=view.findViewById(R.id.xx);
         button = view.findViewById(R.id.addlock);
         button.setOnClickListener(v -> {
-            Intent intent1 = new Intent(getActivity(), Spacetable.class);
+            Intent intent1 = new Intent(getActivity(), FindPark.class);
             intent1.putExtra("username",username);
 
             startActivity(intent1);
