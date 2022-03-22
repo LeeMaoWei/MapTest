@@ -22,7 +22,7 @@
          color:描边颜色
      -->
     <stroke
-        android:width="20px"
+        android:width="2px"
         android:color="#000000" />
 
     <!-- 设置填充效果

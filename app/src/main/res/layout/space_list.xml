@@ -2,17 +2,43 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@drawable/background"
+    android:orientation="vertical">
 
-    <com.loopeer.cardstack.CardStackView
+    <LinearLayout
+        android:id="@+id/input_layout_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <Button
+            android:layout_width="50dip"
+            android:id="@+id/addspace"
+            android:layout_height="50dip"
+            android:layout_marginLeft="20dip"
+            android:background="@drawable/hint_superscript_red"
+            android:gravity="center"
+            android:textSize="33sp"
+            android:text="+"
+            android:textColor="@color/black"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="添加一个新的车位"
+            android:background="#00000000"
+
+            android:padding="5dip"
+            android:textSize="16sp"
+            android:autofillHints=""/>
+        </LinearLayout>
+
+    <ListView
         android:id="@+id/stackview_main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
-        android:clipToPadding="false"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
-        android:background="@color/white"
-        android:paddingTop="12dp"/>
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
