@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -30,11 +31,7 @@ public class Spacetable extends AppCompatActivity  {
     private List<HashMap<String,String>> spacelist= new ArrayList<>();
     private final ParkidDao parkidDao=new ParkidDao();
    private ListView listView;
-
-    private CardStackView mStackView;
-
-    private Cardstackview mTestStackAdapter;
-
+   private Button mButton;
 
 
 
@@ -46,7 +43,7 @@ public class Spacetable extends AppCompatActivity  {
 
 
        listView=findViewById(R.id.stackview_main);
-
+        mButton=findViewById(R.id.addspace);
 
 
         initlist();
@@ -62,16 +59,15 @@ public class Spacetable extends AppCompatActivity  {
 
         Intent intent = this.getIntent();
         String[] info = (String[]) intent.getSerializableExtra("info");
+        mButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(Spacetable.this, Spacetable.class);
+                intent1.putExtra("info",info);
+                startActivity(intent1);
+            }
+        });
 
-
-
-
-
-
-    /*
-        Toast.makeText(this,
-                info[0] + "\n" + info[1] + "\n" + info[2] + "\n" + info[3], Toast.LENGTH_SHORT).show();
-    ***/
         try {
             spacelist = parkidDao.getspaceinfo(info[3]);
         } catch (SQLException throwables) {

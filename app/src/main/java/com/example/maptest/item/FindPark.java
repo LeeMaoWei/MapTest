@@ -82,7 +82,7 @@ public class FindPark extends AppCompatActivity {
     private LocationClient mylocationClient;//定位服务客户对象
     private MylocationListener mylistener;//重写的监听类
     private Context context;
-
+    private String username;
     private String myCity;
 
     private double myLatitude;//纬度，用于存储自己所在位置的纬度
@@ -129,7 +129,7 @@ public class FindPark extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        Toast.makeText(this.context,username,Toast.LENGTH_LONG).show();
         AutoCompleteTextView myEditText_site = findViewById(R.id.editText_site);
         this.texttemp=myEditText_site;
 
@@ -396,7 +396,7 @@ public class FindPark extends AppCompatActivity {
             String id = map.get("id");
             LatLng point = new LatLng(lat, lng);
             Bundle bundle = new Bundle();
-            String[] info={map.get("lat"),map.get("lng"),name,id};
+            String[] info={map.get("lat"),map.get("lng"),name,id,username};
             bundle.putStringArray("info",info);
             //构建Marker图标
             BitmapDescriptor bitmap = BitmapDescriptorFactory
@@ -422,8 +422,7 @@ public class FindPark extends AppCompatActivity {
                     Bundle bundle = marker.getExtraInfo();
 
                     String[] info=bundle.getStringArray("info");
-                    Toast.makeText(context,
-                            info[0]+info[1]+info[2], Toast.LENGTH_SHORT).show();
+
 
                     Intent intent1 = new Intent(FindPark.this, Spacetable.class);
                     intent1.putExtra("info",bundle.getStringArray("info"));

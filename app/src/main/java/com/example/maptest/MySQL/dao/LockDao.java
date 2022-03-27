@@ -18,43 +18,16 @@ import java.util.List;
 public class LockDao {
 
 
-    public boolean login(int id, String username, int state) {
 
-        String sql = "REPLACE INTO locklist(id,username,state) VALUES (?,?,?)";
-
-        Connection con = JDBCUtils.getConn();
-
-        try {
-            PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, String.valueOf(id));
-
-            pst.setString(2, username);
-
-            pst.setString(3, String.valueOf(state));
-            System.out.println(pst);
-
-            if (pst.executeQuery().next()) {
-                return false;
-            }
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        } finally {
-            JDBCUtils.close(con);
-        }
-
-        return true;
-    }
-
-
-    public boolean Link(String lockid,String username){
-        String sql = "update locklist set username = ? where id =" +lockid;
+    public boolean Link(String lockid,String lockname,String username){
+        String sql = "update locklist set username = ? , lockname = ?  where id =" +lockid;
 
         Connection con = JDBCUtils.getConn();
 
         try {
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, username);
+            pst.setString(2, lockname);
             System.out.println(pst);
             if (pst.executeQuery().next()) {
                 return false;

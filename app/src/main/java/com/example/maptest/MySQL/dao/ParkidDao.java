@@ -17,16 +17,16 @@ import java.util.List;
 public class ParkidDao {
     public boolean register(Parkid parkid,String tablename){
 
-        String sql = "INSERT INTO "+tablename+" ( `state`, `price`, 'freetime') VALUES (?,?,?)";
+        String sql = "INSERT INTO "+tablename+" (`price`, 'freetime') VALUES (?,?,?)";
 
         Connection con = JDBCUtils.getConn();
 
         try {
             PreparedStatement pst=con.prepareStatement(sql);
 
-            pst.setString(1, String.valueOf(parkid.getState()));
-            pst.setString(2, String.valueOf(parkid.getPrice()));
-            pst.setString(3, parkid.getFreetime());
+
+            pst.setString(1, String.valueOf(parkid.getPrice()));
+            pst.setString(2, parkid.getFreetime());
 
 
             int value = pst.executeUpdate();

@@ -114,7 +114,7 @@ public class MyMapFragment extends Fragment {
 
     private FragmentMyMapBinding binding;
     private AutoCompleteTextView texttemp;
-
+    private String username;
     private View view = null ;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -131,7 +131,7 @@ public class MyMapFragment extends Fragment {
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
+        Toast.makeText(getActivity(),username,Toast.LENGTH_LONG).show();
 
         //创建poi检索实例
         mPoiSearch = PoiSearch.newInstance();
@@ -432,7 +432,7 @@ public class MyMapFragment extends Fragment {
             String id = map.get("id");
             LatLng point = new LatLng(lat, lng);
             Bundle bundle = new Bundle();
-            String[] info={map.get("lat"),map.get("lng"),name,id};
+            String[] info={map.get("lat"),map.get("lng"),name,id,username};
             bundle.putStringArray("info",info);
             //构建Marker图标
             BitmapDescriptor bitmap = BitmapDescriptorFactory

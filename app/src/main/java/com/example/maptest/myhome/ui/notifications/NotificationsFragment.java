@@ -26,6 +26,7 @@ import com.example.maptest.MySQL.dao.LockDao;
 import com.example.maptest.MySQL.enity.Lock;
 import com.example.maptest.R;
 import com.example.maptest.databinding.FragmentNotificationsBinding;
+import com.example.maptest.item.AddLock;
 import com.example.maptest.item.FindPark;
 import com.example.maptest.item.Spacetable;
 import com.example.maptest.myhome.HomeActivity;
@@ -65,7 +66,7 @@ public class NotificationsFragment extends Fragment {
         listView=view.findViewById(R.id.xx);
         button = view.findViewById(R.id.addlock);
         button.setOnClickListener(v -> {
-            Intent intent1 = new Intent(getActivity(), FindPark.class);
+            Intent intent1 = new Intent(getActivity(), AddLock.class);
             intent1.putExtra("username",username);
 
             startActivity(intent1);
@@ -103,7 +104,7 @@ class LockcardAdapter extends BaseAdapter {
 
     class ViewHolder {
         TextView Lockname,start_time,end_time;
-        ImageView lockpic,edit_lock,delete_lock;
+        ImageView lockpic,edit_lock;
         Switch power;
 
     }
