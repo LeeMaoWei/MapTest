@@ -39,8 +39,6 @@ public class Spacetable extends AppCompatActivity  {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.space_list);
-        //listView=findViewById(R.id.space_layout);
-
 
        listView=findViewById(R.id.stackview_main);
         mButton=findViewById(R.id.addspace);
@@ -62,7 +60,7 @@ public class Spacetable extends AppCompatActivity  {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent1 = new Intent(Spacetable.this, Spacetable.class);
+                Intent intent1 = new Intent(Spacetable.this, AddSpace.class);
                 intent1.putExtra("info",info);
                 startActivity(intent1);
             }
@@ -75,9 +73,6 @@ public class Spacetable extends AppCompatActivity  {
         }
         Cardstackview adapter=new Cardstackview(Spacetable.this,spacelist);
         listView.setAdapter(adapter);
-
-
-
 
 
     }

@@ -4,22 +4,20 @@ package com.example.maptest.item;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.PorterDuff;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.ListView;
+
+import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.core.content.ContextCompat;
 
+import com.example.maptest.MySQL.dao.ParkidDao;
 import com.example.maptest.R;
-import com.loopeer.cardstack.CardStackView;
-import com.loopeer.cardstack.StackAdapter;
+
 
 import java.util.HashMap;
 import java.util.List;
@@ -50,12 +48,13 @@ public class Cardstackview extends BaseAdapter {
     }
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        View root=mInflater.inflate(R.layout.space_layout,null);;
+        @SuppressLint("ViewHolder") View root=mInflater.inflate(R.layout.space_layout,null);;
 
         TextView id;
-        TextView price;
+       Button price;
         TextView freetime1;
         TextView freetime2;
 
@@ -79,8 +78,16 @@ public class Cardstackview extends BaseAdapter {
         assert freetime != null;
         freetime1.setText(freetime.substring(0, 2) + ":" + freetime.substring(2, 4));
         freetime2.setText(freetime.substring(4, 6) + ":" + freetime.substring(6));
+        price.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(root.getContext(),LendActivity.class);
+                String[] info=new String[]{map.get("spaceid"),map.get("freetime"),map.get("price")};
+                intent.putExtra("info",info);
+                root.getContext().startActivity(intent);
+            }
+        });
 
-        System.out.println("holder onBind");
         return root;
     }
 }

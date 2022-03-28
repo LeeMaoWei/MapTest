@@ -123,15 +123,6 @@
 
         </LinearLayout>
     </LinearLayout>
-    <LinearLayout
-        android:id="@+id/input_layout_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        tools:ignore="UselessParent">
 
-
-    </LinearLayout>
 
 </LinearLayout>
