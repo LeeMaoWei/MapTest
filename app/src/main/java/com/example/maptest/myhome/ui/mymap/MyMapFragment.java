@@ -4,6 +4,7 @@ package com.example.maptest.myhome.ui.mymap;
 import static com.baidu.location.LocationClient.setAgreePrivacy;
 import static com.example.maptest.myhome.HomeActivity.mSearch;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -689,7 +690,16 @@ public class MyMapFragment extends Fragment {
                 });
     }
 
+    public void onAttach(Context context) {
+        super.onAttach(context);
 
+        Activity a;
+
+        if (context instanceof Activity){
+            a=(Activity) context;
+        }
+        username=((HomeActivity)context).getTitles();
+    }
 
  public void onStart() {
         super.onStart();

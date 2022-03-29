@@ -15,7 +15,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.maptest.MySQL.dao.LockDao;
 import com.example.maptest.MySQL.dao.ParkidDao;
+import com.example.maptest.MySQL.enity.Lock;
 import com.example.maptest.R;
 import com.loopeer.cardstack.CardStackView;
 
@@ -60,8 +62,23 @@ public class Spacetable extends AppCompatActivity  {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                List <Lock> list = new ArrayList<>();
+                LockDao lockDao = new LockDao();
+                try {
+                    list = lockDao.getinfo(info[4]);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+                String[] ctype = new String[]{};
+                String[] lockid = new String[]{};
+                for (Lock lock:list){
+                    ctype =  insert(ctype,lock.getLockname());
+                    lockid = insert(lockid, String.valueOf(lock.getId()));
+                }
                 Intent intent1 = new Intent(Spacetable.this, AddSpace.class);
                 intent1.putExtra("info",info);
+                intent1.putExtra("lockid",lockid) ;
+                intent1.putExtra("ctype",ctype);
                 startActivity(intent1);
             }
         });
@@ -75,6 +92,15 @@ public class Spacetable extends AppCompatActivity  {
         listView.setAdapter(adapter);
 
 
+    }
+    private static String[] insert(String[] arr, String str) {
+        int size = arr.length;  //获取数组长度
+        String[] tmp = new String[size + 1];  //新建临时字符串数组，在原来基础上长度加一
+        for (int i = 0; i < size; i++){  //先遍历将原来的字符串数组数据添加到临时字符串数组
+            tmp[i] = arr[i];
+        }
+        tmp[size] = str;  //在最后添加上需要追加的数据
+        return tmp;  //返回拼接完成的字符串数组
     }
 
 }

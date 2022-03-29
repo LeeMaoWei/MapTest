@@ -20,7 +20,7 @@ public class LockDao {
 
 
     public boolean Link(String lockid,String lockname,String username){
-        String sql = "update locklist set username = ? , lockname = ?  where id =" +lockid;
+        String sql = "update locklist set username = ? , lockname = ?  where lockid =" +lockid;
 
         Connection con = JDBCUtils.getConn();
 
@@ -28,10 +28,7 @@ public class LockDao {
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, username);
             pst.setString(2, lockname);
-            System.out.println(pst);
-            if (pst.executeQuery().next()) {
-                return false;
-            }
+            pst.execute();
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -41,9 +38,49 @@ public class LockDao {
 
         return true;
     }
+public void update(Lock lock){
+    String sql = "update locklist set lockname = ? , freetime = ?  where lockid =" +lock.getLockid();
+
+    Connection con = JDBCUtils.getConn();
+
+    try {
+        PreparedStatement pst = con.prepareStatement(sql);
+        pst.setString(1, lock.getLockname());
+        pst.setString(2, lock.getFreetime());
+        System.out.println(pst);
+        pst.execute();
 
 
-    public List<Lock> getinfo(String username,String parkid) throws SQLException {
+    } catch (SQLException throwables) {
+        throwables.printStackTrace();
+    } finally {
+        JDBCUtils.close(con);
+    }
+
+    return ;
+}
+    public void lockstate(Lock lock){
+        String sql = "update locklist set lockstate = ? where lockid =" +lock.getLockid();
+
+        Connection con = JDBCUtils.getConn();
+
+        try {
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setString(1, String.valueOf(lock.getLockstate()));
+            System.out.println(pst);
+            pst.execute();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            JDBCUtils.close(con);
+        }
+
+        return ;
+    }
+
+
+    public List<Lock> getinfo(String username) throws SQLException {
 
 //       先定义一个List<HashMap<String,String>>类型的数据并实例化
         List<Lock> list = new ArrayList<>();
@@ -55,7 +92,7 @@ public class LockDao {
         Statement sta=conn.createStatement();
 
 //        定义sql语句
-        String sql="select * from locklist,`"+parkid+"` where ( locklist.username=\""+username+"\") and (locklist.lockid=`"+parkid+"`.lockid)";
+        String sql="select * from locklist where username=\'"+username+"\'";
 
 //        调用Statement对象执行sql语句,返回结果result是ResultSet类型，就是结果集，具体百度
             ResultSet result = sta.executeQuery(sql);
@@ -66,11 +103,12 @@ public class LockDao {
                 Lock lock = new Lock();
 //            往map中填数据，map的数据类型相当于键值对
 //            键是name，值是result.getString("empname"),意思是结果集指针所在行的字段名中的数据
-                lock.setId(Integer.parseInt(result.getString("lockid")));
+                lock.setLockid(Integer.parseInt(result.getString("lockid")));
                 lock.setLockname(result.getString("lockname"));
                 lock.setState(Integer.parseInt(result.getString("lockstate")));
                 lock.setFreetime(result.getString("freetime"));
                 lock.setUsername(username);
+                lock.setParkid(result.getString("parkid"));
 //            每次循环完就添加到list中，最终list的样子是：[{name=xx},{name=aaa},.......]
                 list.add(lock);
 

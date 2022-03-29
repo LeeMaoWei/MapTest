@@ -1,6 +1,7 @@
 package com.example.maptest.MySQL.dao;
 
 
+import com.example.maptest.MySQL.enity.Lock;
 import com.example.maptest.MySQL.enity.Parkid;
 
 import com.example.maptest.utils.JDBCUtils;
@@ -17,20 +18,20 @@ import java.util.List;
 public class ParkidDao {
     public boolean register(Parkid parkid,String tablename){
 
-        String sql = "INSERT INTO "+tablename+" (`price`, 'freetime') VALUES (?,?,?)";
+        String sql = "INSERT INTO `"+tablename+"` (lockid,price,freetime) VALUES (?,?,?)";
 
         Connection con = JDBCUtils.getConn();
 
         try {
             PreparedStatement pst=con.prepareStatement(sql);
 
-
-            pst.setString(1, String.valueOf(parkid.getPrice()));
-            pst.setString(2, parkid.getFreetime());
+            pst.setString(1, parkid.getLockid());
+            pst.setString(2, String.valueOf(parkid.getPrice()));
+            pst.setString(3, parkid.getFreetime());
 
 
             int value = pst.executeUpdate();
-
+            System.out.println(pst);
             if(value>0){
                 return true;
             }
@@ -87,5 +88,42 @@ public class ParkidDao {
 //        最后记得把list返回出去，不然拿不到这个list
         return list;
     }
+    public void update(Lock lock ){
+        String sql = "update `"+lock.getParkid()+"` freetime = ?  where lockid =" +lock.getLockid();
 
+        Connection con = JDBCUtils.getConn();
+
+        try {
+            PreparedStatement pst = con.prepareStatement(sql);
+
+            pst.setString(1, lock.getFreetime());
+            System.out.println(pst);
+            pst.execute();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            JDBCUtils.close(con);
+        }
+
+    }
+    public void parkidstate(Lock lock){
+        String sql = "update `"+lock.getParkid()+"` set state = ?  where lockid =" +lock.getLockid();
+
+        Connection con = JDBCUtils.getConn();
+
+        try {
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setString(1, String.valueOf(lock.getLockstate()));
+            System.out.println(pst);
+            pst.execute();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            JDBCUtils.close(con);
+        }
+
+        return ;
+    }
 }

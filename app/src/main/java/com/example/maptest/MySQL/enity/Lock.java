@@ -6,18 +6,48 @@ public class Lock {
     private int lockstate;
     private String lockname;
     private String freetime;
+    private String parkid;
+
 
 
     public Lock() {
 
     }
 
-    public Lock(int id, String username, int state, String lockname) {
+    public Lock(int id, String username, int state, String lockname,String freetime,String parkid) {
         this.lockid = id;
         this.username = username;
         this.lockstate=state;
         this.lockname=lockname;
+        this.freetime=freetime;
+        this.parkid=parkid;
     }
+
+    public void setLockid(int lockid) {
+        this.lockid = lockid;
+    }
+
+    public void setParkid(String parkid) {
+        this.parkid = parkid;
+    }
+
+    public int getLockid() {
+        return lockid;
+    }
+
+    public int getLockstate() {
+        return lockstate;
+    }
+
+    public String getParkid() {
+        return parkid;
+    }
+
+    public void setLockstate(int lockstate) {
+        this.lockstate = lockstate;
+    }
+
+
 
     public String getLockname() {
         return lockname;

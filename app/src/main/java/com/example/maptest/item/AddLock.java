@@ -46,7 +46,7 @@ public class AddLock extends AppCompatActivity {
     private EditText status;
     private EditText clientIdEt;
     private String username;
-    private final Button connBtn = findViewById(R.id.connBtn);
+    private  Button connBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,20 +56,20 @@ public class AddLock extends AppCompatActivity {
         username = (String) intent.getSerializableExtra("username");
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.addlock);
 
         status = findViewById(R.id.status);
         clientIdEt = findViewById(R.id.clientId);
-
+        connBtn = findViewById(R.id.connBtn);
         //timeText = findViewById(R.id.timeText);
 
-        connect();
+
 
         connBtn.setOnClickListener(v -> {
             String topic = clientIdEt.getText().toString();
             String lokename = status.getText().toString();
             Boolean flag;
-
+            connect();
             flag=link(lokename,topic,username);
 
 

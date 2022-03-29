@@ -58,6 +58,22 @@
         <activity
             android:name=".item.FindPark"
             android:label="MapTest" />
+        <activity
+            android:name=".item.AddSpace"
+            android:label="MapTest" />
+        <activity
+            android:name=".item.AddLock"
+            android:label="MapTest" />
+        <activity
+            android:name=".item.LendActivity"
+            android:label="MapTest" />
+
+        <activity
+            android:name=".item.EditLockActivity"
+            android:label="MapTest" />
+
+
+
 
 
         <meta-data

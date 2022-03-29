@@ -3,8 +3,10 @@ package com.example.maptest.item;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import android.telephony.ims.RcsUceAdapter;
+
+import android.os.StrictMode;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,50 +31,51 @@ import java.util.List;
 public class AddSpace extends AppCompatActivity {
     private Spinner spinner;
     private EditText inputtime, inputprice;
-    private List<Lock> list= new ArrayList<>();;
-
+    private List<Lock> list= new ArrayList<>();
+    private Button button;
+    private String lock_id;
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    protected void onCreate(Bundle savedInstanceState) {
+       super.onCreate(savedInstanceState);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        setContentView(R.layout.add_space);
         Intent intent = this.getIntent();
         String[] info = (String[]) intent.getSerializableExtra("info");
-        setContentView(R.layout.add_space);
-        Button button = findViewById(R.id.add_a_space);
+        String[] ctype = (String[]) intent.getSerializableExtra("ctype");
+        String[] lockid = (String[]) intent.getSerializableExtra("lockid");
+        button = findViewById(R.id.add_a_space);
         spinner = findViewById(R.id.spinner);
         inputtime = findViewById(R.id.time_input);
         inputprice = findViewById(R.id.price_input);
-        LockDao lockDao = new LockDao();
-        try {
-            list = lockDao.getinfo(info[4], info[3]);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        String[] ctype = new String[0];
-        for (Lock lock:list){
-            insert(ctype,lock.getLockname());
-        }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,ctype);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item,ctype);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                lock_id = lockid[arg2];
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ParkidDao parkidDao=new ParkidDao();
                 Parkid parkid = new Parkid();
+               parkid.setLockid(lock_id);
                 parkid.setFreetime(inputtime.getText().toString());
                 parkid.setPrice(Float.parseFloat(inputprice.getText().toString()));
                 parkidDao.register(parkid,info[3]);
+
+                finish();
+
             }
         });
-    }
-    private static String[] insert(String[] arr, String str) {
-        int size = arr.length;  //获取数组长度
-        String[] tmp = new String[size + 1];  //新建临时字符串数组，在原来基础上长度加一
-        for (int i = 0; i < size; i++){  //先遍历将原来的字符串数组数据添加到临时字符串数组
-            tmp[i] = arr[i];
-        }
-        tmp[size] = str;  //在最后添加上需要追加的数据
-        return tmp;  //返回拼接完成的字符串数组
     }
 
 }

@@ -6,16 +6,26 @@ public class Parkid{
     private int state;
     private float price;
     private String freetime;
+    private String lockid;
 
     public Parkid() {
 
     }
 
-    public Parkid(int spaceid,int state, float price, String freetime) {
+    public Parkid(int spaceid,int state, float price, String freetime,String lockid) {
         this.spaceid=spaceid;
         this.state = state;
         this.price = price;
         this.freetime = freetime;
+        this.lockid = lockid;
+    }
+
+    public String getLockid() {
+        return lockid;
+    }
+
+    public void setLockid(String lockid) {
+        this.lockid = lockid;
     }
 
     public void setState(int state) {
