@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 public class UserDao {
 
 
-    public boolean login(String username,String password){
+    public int login(String username,String password){
 
         String sql = "select * from user where username = ? and password = ?";
 
@@ -24,10 +24,10 @@ public class UserDao {
 
             pst.setString(1,username);
             pst.setString(2,password);
+            ResultSet rs = pst.executeQuery();
+            if(rs.next()){
 
-            if(pst.executeQuery().next()){
-
-                return true;
+                return rs.getInt(3);
 
             }
 
@@ -37,7 +37,7 @@ public class UserDao {
             JDBCUtils.close(con);
         }
 
-        return false;
+        return 3;
     }
 
     public boolean register(User user){

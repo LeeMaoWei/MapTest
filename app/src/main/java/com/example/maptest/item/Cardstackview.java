@@ -54,7 +54,8 @@ public class Cardstackview extends BaseAdapter {
         @SuppressLint("ViewHolder") View root=mInflater.inflate(R.layout.space_layout,null);;
 
         TextView id;
-       Button price;
+       Button botton;
+       TextView price;
         TextView freetime1;
         TextView freetime2;
 
@@ -67,7 +68,8 @@ public class Cardstackview extends BaseAdapter {
         price = root.findViewById(R.id.space_price);
         freetime1 = root.findViewById(R.id.space_freetime1);
         freetime2 = root.findViewById(R.id.space_freetime2);
-        System.out.println("CardViewHolder constructor");
+        botton=root.findViewById(R.id.buy);
+
 
 
 
@@ -78,7 +80,7 @@ public class Cardstackview extends BaseAdapter {
         assert freetime != null;
         freetime1.setText(freetime.substring(0, 2) + ":" + freetime.substring(2, 4));
         freetime2.setText(freetime.substring(4, 6) + ":" + freetime.substring(6));
-        price.setOnClickListener(new View.OnClickListener() {
+        botton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(root.getContext(),LendActivity.class);

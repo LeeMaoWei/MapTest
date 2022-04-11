@@ -30,7 +30,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.NoActionBar"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true" >
         <activity
@@ -59,7 +59,7 @@
             android:name=".item.FindPark"
             android:label="MapTest" />
         <activity
-            android:name=".item.AddSpace"
+            android:name=".item.AddtheSpace"
             android:label="MapTest" />
         <activity
             android:name=".item.AddLock"
@@ -70,6 +70,14 @@
 
         <activity
             android:name=".item.EditLockActivity"
+            android:label="MapTest" />
+
+
+        <activity
+            android:name=".admin.Admin"
+            android:label="MapTest" />
+        <activity
+            android:name=".admin.AddaSpace"
             android:label="MapTest" />
 
 

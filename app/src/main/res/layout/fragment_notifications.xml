@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
     tools:context=".myhome.ui.home.HomeFragment"
     android:orientation="vertical">
 
@@ -11,8 +12,9 @@
 
 
     <ListView
+        android:layout_gravity="center_horizontal"
         android:id="@+id/xx"
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
         android:layout_height="wrap_content" />
 
 

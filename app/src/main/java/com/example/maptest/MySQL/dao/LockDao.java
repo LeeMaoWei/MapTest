@@ -105,7 +105,7 @@ public void update(Lock lock){
 //            键是name，值是result.getString("empname"),意思是结果集指针所在行的字段名中的数据
                 lock.setLockid(Integer.parseInt(result.getString("lockid")));
                 lock.setLockname(result.getString("lockname"));
-                lock.setState(Integer.parseInt(result.getString("lockstate")));
+                lock.setLockstate(Integer.parseInt(result.getString("lockstate")));
                 lock.setFreetime(result.getString("freetime"));
                 lock.setUsername(username);
                 lock.setParkid(result.getString("parkid"));

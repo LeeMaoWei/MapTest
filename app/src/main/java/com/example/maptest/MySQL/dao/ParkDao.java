@@ -15,25 +15,37 @@ import java.util.List;
 
 public class ParkDao {
 /***未完成***/
-    public boolean register(Park park){
+    public String register(Park park){
 
-        String sql = "INSERT INTO `park` (`AdminCode`, `parkname`, `lng`, `lat`,'num') VALUES (?,?,?,?,0)";
+        String sql = "INSERT INTO `park` (`AdminCode`, `parkname`, `lat`, `lng` ,`num`) VALUES (?,?,?,?,0)";
 
         Connection con = JDBCUtils.getConn();
+        String no=null;
+
 
         try {
-            PreparedStatement pst=con.prepareStatement(sql);
+            PreparedStatement pst=con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
 
             pst.setString(1, String.valueOf(park.getAdmincode()));
             pst.setString(2,park.getParkname());
-            pst.setInt(3, Integer.parseInt(park.getLng()));
-            pst.setInt(4,Integer.parseInt(park.getLat()));
+            pst.setString(3,park.getLng());
+            pst.setString(4,park.getLat());
 
 
             int value = pst.executeUpdate();
+            if(value > 0 ){
+                /**
+                 * 获取刚刚插入进去的记录中关注的那几列的值
+                 */
+                ResultSet rs = pst.getGeneratedKeys();
+                if(rs.next()){
+                    //获取deptno的值(int)--现在只关注此列
+                     no = rs.getString(1);//此处建议使用数字,getInt("deptno")对于不同的数据库版本可能不支持
 
-            if(value>0){
-                return true;
+                }
+                rs.close();//释放资源
+
+                return no;
             }
 
 
@@ -42,8 +54,30 @@ public class ParkDao {
         }finally {
             JDBCUtils.close(con);
         }
-        return false;
+        return null;
     }
+
+    public void register(String a) {
+
+        Connection con = JDBCUtils.getConn();
+        String sql = "CREATE TABLE `"+a+"` (\n" +
+                "  `spaceid` int primary key not null auto_increment,\n" +
+                "  `lockid` int NOT NULL UNIQUE,\n" +
+                "  `state` int NOT NULL DEFAULT '1',\n" +
+                "  `price` float NOT NULL,\n" +
+                "  `freetime` varchar(11) COLLATE utf8mb4_general_ci NOT NULL\n" +
+                ") ";
+
+        System.out.println(sql);
+        try {
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate(sql);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+
 
 
     public  List<HashMap<String,String>> getinfo(String admincode) throws SQLException {

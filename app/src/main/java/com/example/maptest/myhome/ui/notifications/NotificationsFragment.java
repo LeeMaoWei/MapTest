@@ -1,6 +1,5 @@
 package com.example.maptest.myhome.ui.notifications;
 
-import static android.service.controls.ControlsProviderService.TAG;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -36,13 +35,7 @@ import com.example.maptest.utils.Mqtt;
 
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
-import org.eclipse.paho.client.mqttv3.IMqttActionListener;
-import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
-import org.eclipse.paho.client.mqttv3.IMqttToken;
-import org.eclipse.paho.client.mqttv3.MqttCallback;
-import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
-import org.eclipse.paho.client.mqttv3.MqttException;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
+
 
 import java.sql.SQLException;
 
@@ -177,7 +170,7 @@ class LockcardAdapter extends BaseAdapter {
         viewHolder.Lockname.setText(mList.get(i).getLockname());
         viewHolder.start_time.setText(mList.get(i).getFreetime().substring(0, 2) + ":" + mList.get(i).getFreetime().substring(2, 4));
         viewHolder.end_time.setText(mList.get(i).getFreetime().substring(4, 6) + ":" + mList.get(i).getFreetime().substring(6));
-
+        viewHolder.power.setOnCheckedChangeListener(null);
         if (mList.get(i).getLockstate()== 1) {
             viewHolder.lockpic.setImageResource(R.drawable.ic_lock__1_);
             viewHolder.power.setChecked(true);

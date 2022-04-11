@@ -4,14 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
-import android.os.Handler;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,11 +14,9 @@ import com.example.maptest.MySQL.dao.LockDao;
 import com.example.maptest.MySQL.dao.ParkidDao;
 import com.example.maptest.MySQL.enity.Lock;
 import com.example.maptest.R;
-import com.loopeer.cardstack.CardStackView;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -75,7 +68,7 @@ public class Spacetable extends AppCompatActivity  {
                     ctype =  insert(ctype,lock.getLockname());
                     lockid = insert(lockid, String.valueOf(lock.getId()));
                 }
-                Intent intent1 = new Intent(Spacetable.this, AddSpace.class);
+                Intent intent1 = new Intent(Spacetable.this, AddtheSpace.class);
                 intent1.putExtra("info",info);
                 intent1.putExtra("lockid",lockid) ;
                 intent1.putExtra("ctype",ctype);

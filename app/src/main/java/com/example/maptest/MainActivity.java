@@ -1,6 +1,7 @@
 package com.example.maptest;
 import static java.lang.Thread.sleep;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.animation.Animator;
@@ -9,9 +10,10 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.content.Intent;
 
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -26,6 +28,7 @@ import android.widget.Toast;
 
 
 import com.example.maptest.MySQL.dao.UserDao;
+import com.example.maptest.admin.Admin;
 import com.example.maptest.myhome.HomeActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -36,14 +39,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View decorView = getWindow().getDecorView();
-        // Hide the status bar.
-        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
-        // Remember that you should never show the action bar if the
-        // status bar is hidden, so hide that too if necessary.
-
         setContentView(R.layout.activity_main);
+        if (Build.VERSION.SDK_INT >= 21) {
+            View decorView = getWindow().getDecorView();
+            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            decorView.setSystemUiVisibility(option);
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar!=null){
+        actionBar.hide();
+        }
+
+
         progress = findViewById(R.id.layout_progress);
         mInputLayout = findViewById(R.id.input_layout);
         mName = (LinearLayout) findViewById(R.id.input_layout_name);
@@ -52,7 +61,19 @@ public class MainActivity extends AppCompatActivity {
         mBotton.setOnClickListener(this::login);
 
     }
-
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus && Build.VERSION.SDK_INT >= 19) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        }
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -77,66 +98,58 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void login(View view){
-        new Thread(() -> {
+
 
             UserDao userDao = new UserDao();
             EditText EditTextname = findViewById(R.id.username);
             EditText EditTextpassword = findViewById(R.id.password);
-            boolean aa = userDao.login(EditTextname.getText().toString(),EditTextpassword.getText().toString());
-            int msg = 0;
-            if(aa){
-                msg = 1;
+        new Thread(() -> {
+            Integer aa = userDao.login(EditTextname.getText().toString(),EditTextpassword.getText().toString());
 
-            }
 
-            hand1.sendEmptyMessage(msg);
+            hand1.sendEmptyMessage(aa);
 
 
         }).start();
-
-        mWidth = mBotton.getMeasuredWidth();
-        mHeight = mBotton.getMeasuredHeight();
-        // 隐藏输入框
-        mName.setVisibility(View.INVISIBLE);
-        mPsw.setVisibility(View.INVISIBLE);
-
-        inputAnimator(mInputLayout, mWidth, mHeight);
 
 
 
 
     }
+
     @SuppressLint("HandlerLeak")
-    final Handler hand1 = new Handler(Looper.getMainLooper())
-    {
+    final Handler hand1 = new Handler(Looper.getMainLooper()) {
 
         @Override
         public void handleMessage(Message msg) {
 
-            if(msg.what == 1)
-            {
+            if (msg.what == 0) {
                 EditText EditTextname = findViewById(R.id.username);
-                Toast.makeText(getApplicationContext(),"登录成功",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                intent.putExtra("username",EditTextname.getText().toString());
+                intent.putExtra("username", EditTextname.getText().toString());
 
                 startActivity(intent);
 
 
-            }
-            else if(msg.what == 0)
-            {
-                Toast.makeText(getApplicationContext(),"登录失败",Toast.LENGTH_LONG).show();
+            } else if (msg.what == 3) {
+                Toast.makeText(getApplicationContext(), "登录失败", Toast.LENGTH_LONG).show();
+
                 try {
                     recovery();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            }
-            else
-            {
-                Toast.makeText(getApplicationContext(),"管理员登录成功",Toast.LENGTH_LONG).show();
-                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+
+            } else {
+
+                Toast.makeText(getApplicationContext(), "管理员登录成功", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(getApplicationContext(), Admin.class));
+                try {
+                    recovery();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
 
         }

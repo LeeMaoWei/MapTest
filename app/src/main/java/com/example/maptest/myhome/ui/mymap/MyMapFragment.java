@@ -27,6 +27,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 
 import com.baidu.location.BDLocation;
@@ -425,16 +426,16 @@ public class MyMapFragment extends Fragment {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        for(int i=0;i<list.size();i++){
-            HashMap<String,String> map= list.get(i);
+        for(int i=0;i<list.size();i++) {
+            HashMap<String, String> map = list.get(i);
             double lat = Double.parseDouble(Objects.requireNonNull(map.get("lat")));
             double lng = Double.parseDouble(Objects.requireNonNull(map.get("lng")));
             String name = map.get("name");
             String id = map.get("id");
             LatLng point = new LatLng(lat, lng);
             Bundle bundle = new Bundle();
-            String[] info={map.get("lat"),map.get("lng"),name,id,username};
-            bundle.putStringArray("info",info);
+            String[] info = {map.get("lat"), map.get("lng"), name, id, username};
+            bundle.putStringArray("info", info);
             //构建Marker图标
             BitmapDescriptor bitmap = BitmapDescriptorFactory
                     .fromResource(R.drawable.icon_markb);
@@ -446,12 +447,11 @@ public class MyMapFragment extends Fragment {
             //info必须实现序列化接口
 
 
-
             myBaiduMap.addOverlay(option).setExtraInfo(bundle);
 
             //在地图上添加Marker，并显示
             //myBaiduMap.addOverlay(option);
-
+        }
             myBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
                 @Override
                 public boolean onMarkerClick(Marker marker) {
@@ -475,7 +475,7 @@ public class MyMapFragment extends Fragment {
                     return true;
                 }
             });
-        }
+
     }
 
     //创建poi检索监听器
@@ -505,7 +505,7 @@ public class MyMapFragment extends Fragment {
 
             });
 
-            listView.setOnScrollListener(new AbsListView.OnScrollListener()
+           /* listView.setOnScrollListener(new AbsListView.OnScrollListener()
         {
             @Override
             public void onScrollStateChanged (AbsListView view,int scrollState) {
@@ -534,7 +534,7 @@ public class MyMapFragment extends Fragment {
             public void onScroll (AbsListView absListView,int i, int i1, int i2){
 
         }
-        });
+        });*/
     }
 
         @Override

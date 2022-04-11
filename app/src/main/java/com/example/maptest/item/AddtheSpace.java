@@ -13,22 +13,22 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 
-import androidx.annotation.Nullable;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.maptest.MySQL.dao.LockDao;
+
 import com.example.maptest.MySQL.dao.ParkidDao;
 import com.example.maptest.MySQL.enity.Lock;
 import com.example.maptest.MySQL.enity.Parkid;
 import com.example.maptest.R;
 
-import java.sql.SQLException;
+
 import java.util.ArrayList;
 
 import java.util.List;
 
 
-public class AddSpace extends AppCompatActivity {
+public class AddtheSpace extends AppCompatActivity {
     private Spinner spinner;
     private EditText inputtime, inputprice;
     private List<Lock> list= new ArrayList<>();

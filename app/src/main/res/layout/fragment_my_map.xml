@@ -9,16 +9,16 @@
             android:background="@drawable/radius_drawable_bg"
            >
 
-            <AutoCompleteTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:radius="15dip"
-                android:background="#00000000"
-                android:hint="@string/address"
-                android:padding="10dip"
-                android:textColor="@color/black"
+    <AutoCompleteTextView
+        android:id="@+id/editText_site"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#00000000"
+        android:hint="@string/address"
+        android:padding="10dip"
+        android:radius="15dip"
 
-                android:id="@+id/editText_site" />
+        android:textColor="@color/black" />
             <ListView
                 android:id="@+id/json_lv"
                 android:layout_width="match_parent"
@@ -26,10 +26,10 @@
 
                 android:visibility="gone" />
 
-        <com.baidu.mapapi.map.TextureMapView
-            android:id="@+id/baiduMapView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clickable="true" />
+    <com.baidu.mapapi.map.TextureMapView
+        android:id="@+id/baiduMapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true" />
 
-        </LinearLayout>
+</LinearLayout>

@@ -17,7 +17,7 @@ import com.baidu.mapapi.search.geocode.GeoCoder;
 import com.example.maptest.R;
 
 import com.example.maptest.databinding.ActivityMyHomeBinding;
-import com.example.maptest.myhome.ui.notifications.NotificationsFragment;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
